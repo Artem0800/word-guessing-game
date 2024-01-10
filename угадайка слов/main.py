@@ -1,5 +1,5 @@
 import random
-word_list = ["помидорр","крокодил","машина","человек","ауди","мерседес","дом","паук","шарага","перпендикуляр",
+word_list = ["помидор","крокодил","машина","человек","ауди","мерседес","дом","паук","шарага","перпендикуляр",
              "окружность","земля","марс","вселеная","школа","университет","колледж","пизда","хуй","пиво",
              "учитель","порно","геморой","частота","шкаф","штанга","яблоко","груша","богатый","ястреб","индивид"]
 def get_word():
@@ -82,34 +82,30 @@ def defence_durak(user):
     return user.isalpha()
 
 def play(word):
-    print("Добро пожаловать в угадайку слов , для того чтобы выиграть вы должны ввести правильное угаданое слово,\n"
-          "ваши правильные веденые буквы будут добавляться в отдельный список и из этих букв вы должны угадать слово"
-          " буквы не будут перемешиватся в этом списке. \n У вас будет всего 6 попыток  попытки будут "
-          "отображатся в качестве висилиницы для того чтобы обновить список просто нажмте enter")
+    print("Добро пожаловать в угадайку слов ! (:")
+    s = list("_" * len(word))
     guessed_letters = []
     guessed_words = []
-    tr = []
     tries = 6
 
     while True:
         print(display_hangman(tries))
-        print(f"В загаданном слове {len(word)} букв")
         user = input("Введите букву или слово").upper()
         print(f"Твои названые буквы {guessed_letters}")
         print(f"Твои названые слова {guessed_words}")
-        print(f"Правильно названые буквы {tr}")
+        print("".join(s))
 
         if (defence_durak(user) == True) and (user not in guessed_letters) and (user not in guessed_words):
             if len(user) == 1:
                 if user in word:
                     print(f"Молодец ты угадал/ла букву")
-                    tr.append(user)
+                    id = word.index(user)
+                    s[id] = user
                     guessed_letters.extend(user)
                     if (user in word) and (word.count(user)) > 1:
-                        print(f"Молодец ты угадал/ла букву {user} которая встречается {word.count(user)} раз")
-                        for i in range(word.count(user)-1):
-                            guessed_letters.extend(user)
-                            tr.append(user)
+                        ind = [i for i in range(len(word)) if word[i] == user]
+                        for i in ind:
+                            s[i] = user
                 elif tries == 1:
                     print(f"Ты проиграл загаданое слово было {word}")
                     break
@@ -128,5 +124,3 @@ def play(word):
         else:
             print("Ты должен вводить буквы !,и ты не должен повторять буквы или слова которые уже вводил")
 play(get_word())
-
-
